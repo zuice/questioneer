@@ -1,7 +1,5 @@
 import { sign, verify } from 'jsonwebtoken';
 import { Request, Response } from 'express';
-import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
-import { AuthChecker } from 'type-graphql';
 
 import { User } from '../entities/User';
 
@@ -63,18 +61,4 @@ export const sendRefreshToken = (res: Response, token: string) => {
         ? '.questioneer.jeffa.dev'
         : undefined,
   });
-};
-
-export const authChecker: AuthChecker<ExpressContext> = ({ context }) => {
-  const { req } = context;
-  const token = req.get('Authorization');
-
-  if (!token) return false;
-
-  const withoutBearer = token.split(' ')[1];
-  const data = verify(withoutBearer, process.env.ACCESS_TOKEN_SECRET!);
-
-  if (!data) return false;
-
-  return true;
 };

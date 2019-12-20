@@ -66,6 +66,7 @@ export const GET_QUESTION_ME = gql`
       email
       firstName
       lastName
+      role
     }
   }
 `;
