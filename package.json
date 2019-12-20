@@ -1,0 +1,20 @@
+{
+  "name": "questioneer",
+  "version": "0.0.1",
+  "description": "Questioneer Monorepo",
+  "main": "index.js",
+  "repository": "https://github.com/vueu/questioneer.git",
+  "author": "Jeff Allen <jeff.allen127@gmail.com>",
+  "workspaces": {
+    "packages": [
+      "packages/web",
+      "packages/server"
+    ]
+  },
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "create-graphql-api": "^1.2.4",
+    "lerna": "^3.19.0"
+  }
+}

@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: questioneer
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - webnet
+    ports:
+      - 5432:5432
+  server:
+    image: vueu/questioneer-server
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_HOST: db
+      DATABASE_NAME: questioneer
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      ACCESS_TOKEN_SECRET: supersecrettoken1
+      REFRESH_TOKEN_SECRET: supersecrettoken2
+    ports:
+      - 3001:3001
+    networks:
+      - webnet
+    depends_on:
+      - db
+  web:
+    image: vueu/questioneer-web
+    environment:
+      NODE_ENV: production
+      GRAPHQL_URL: http://server:3001/
+    ports:
+      - 3000:3000
+    networks:
+      - webnet
+    depends_on:
+      - server
+networks:
+  webnet:
