@@ -7,14 +7,15 @@ import { User } from '../../entities/User';
 
 export class MeResolver {
   @Query(() => UserOutput)
-  @Authorized('NORMAL', 'ADMIN')
+  @Authorized()
   async me(@Ctx() ctx: MyContext): Promise<UserOutput> {
-    const authorization = ctx.req.get('Authorization') as string;
+    const authorization = ctx.req.headers['authorization'] as string;
+
     const token = authorization.split(' ')[1];
     const payload = verify(token, process.env.ACCESS_TOKEN_SECRET!) as {
-      id: string;
+      userId: string;
     };
-    const user = await User.findOne(payload.id);
+    const user = await User.findOne(payload.userId);
 
     return user!;
   }

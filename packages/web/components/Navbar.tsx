@@ -2,7 +2,6 @@ import { FunctionComponent, ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation } from '@apollo/react-hooks';
 import { Menu, Dropdown } from 'semantic-ui-react';
-import Router from 'next/router';
 import Link from 'next/link';
 
 import { User } from '../types/user/User';
@@ -54,7 +53,11 @@ export const Navbar: FunctionComponent<Props> = ({ me }) => {
 
                 setAccessToken('');
 
-                Router.push('/');
+                if (router.pathname !== '/') {
+                  router.push('/');
+                } else {
+                  router.reload();
+                }
               }}
             >
               Logout

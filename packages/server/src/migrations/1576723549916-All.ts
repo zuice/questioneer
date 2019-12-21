@@ -2,7 +2,6 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class All1576723549916 implements MigrationInterface {
   name = 'All1576723549916';
-
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.query(
       `CREATE TABLE "question_difficulty" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "title" character varying NOT NULL, CONSTRAINT "PK_2859893a6657c9e8843674013fd" PRIMARY KEY ("id"))`,
@@ -17,7 +16,7 @@ export class All1576723549916 implements MigrationInterface {
       undefined,
     );
     await queryRunner.query(
-      `CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "email" character varying NOT NULL, "firstName" character varying NOT NULL, "lastName" character varying NOT NULL, "password" character varying NOT NULL, "tokenVersion" integer NOT NULL DEFAULT 0, "role" character varying NOT NULL DEFAULT 0, "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT 'Now()', "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT 'Now()', CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "email" character varying NOT NULL, "firstName" character varying NOT NULL, "lastName" character varying NOT NULL, "password" character varying NOT NULL, "tokenVersion" integer NOT NULL DEFAULT 0, "role" character varying NOT NULL DEFAULT 'NORMAL', "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT 'Now()', "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT 'Now()', CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`,
       undefined,
     );
     await queryRunner.query(

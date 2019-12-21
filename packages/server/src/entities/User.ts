@@ -35,7 +35,7 @@ export class User extends BaseEntity {
   @Field({ defaultValue: 0 })
   tokenVersion: number;
 
-  @Column({ default: 0 })
+  @Column({ default: 'NORMAL' })
   role: 'ADMIN' | 'NORMAL';
 
   @Column({ type: 'timestamptz', default: `Now()` })

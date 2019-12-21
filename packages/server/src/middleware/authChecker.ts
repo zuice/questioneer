@@ -21,17 +21,20 @@ export const authChecker: AuthChecker<MyContext> = async (
 
     context.payload = payload as any;
 
-    if (
-      (user && roles.length <= 0) ||
-      (user && roles.indexOf(user.role) > -1)
-    ) {
-      context.payload = { userId: user!.id };
-    } else {
+    if (!user) {
       return false;
     }
 
-    return true;
-  } catch (_) {
+    if (roles.length <= 0) {
+      return true;
+    }
+
+    if (roles.indexOf(user.role) > -1) {
+      return true;
+    }
+
+    return false;
+  } catch (e) {
     return false;
   }
 };
