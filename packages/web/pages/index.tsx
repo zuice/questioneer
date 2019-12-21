@@ -1,19 +1,18 @@
-import { MeOutput } from '../types/user/MeOutput';
-import { GET_ME } from '../graphql/queries/user-queries';
+import { FunctionComponent } from 'react';
+
 import { Layout } from '../components/Layout';
 import { withApollo } from '../lib/withApollo';
-import { useQuery } from '@apollo/react-hooks';
+import { User } from '../types/user/User';
+import { withMe } from '../lib/withMe';
 
-const Dashboard = () => {
-  const { data, loading } = useQuery<MeOutput>(GET_ME, {
-    fetchPolicy: 'cache-first',
-  });
+interface Props {
+  me: User;
+}
 
-  return (
-    <Layout loading={loading} me={data ? data.me : null} action="Dashboard">
-      {data ? data.me.email : 'Not logged in.'}
-    </Layout>
-  );
-};
+const Dashboard: FunctionComponent<Props> = ({ me }) => (
+  <Layout loading={false} me={me} action="Dashboard">
+    {me ? me.email : 'Not logged in.'}
+  </Layout>
+);
 
-export default withApollo(Dashboard);
+export default withApollo(withMe(Dashboard));

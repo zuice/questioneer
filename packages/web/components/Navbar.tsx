@@ -1,9 +1,13 @@
 import { FunctionComponent, ReactElement } from 'react';
 import { useRouter } from 'next/router';
+import { useMutation } from '@apollo/react-hooks';
 import { Menu, Dropdown } from 'semantic-ui-react';
+import Router from 'next/router';
 import Link from 'next/link';
 
 import { User } from '../types/user/User';
+import { LOGOUT_USER } from '../graphql/mutations/user-mutations';
+import { setAccessToken } from '../lib/auth';
 
 interface Props {
   me?: User;
@@ -28,6 +32,7 @@ const checkActive = (activePath: string, path: string) => {
 export const Navbar: FunctionComponent<Props> = ({ me }) => {
   let authComponent: ReactElement;
   let unauthComponent: ReactElement;
+  const [logout, { client }] = useMutation<boolean>(LOGOUT_USER);
   const router = useRouter();
 
   if (me) {
@@ -41,9 +46,19 @@ export const Navbar: FunctionComponent<Props> = ({ me }) => {
                 <Dropdown.Item as="a">Admin</Dropdown.Item>
               </Link>
             ) : null}
-            <Link href="/auth/logout">
-              <Dropdown.Item as="a">Logout</Dropdown.Item>
-            </Link>
+            <Dropdown.Item
+              as="a"
+              onClick={async () => {
+                await logout();
+                await client?.clearStore();
+
+                setAccessToken('');
+
+                Router.push('/');
+              }}
+            >
+              Logout
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Menu.Menu>

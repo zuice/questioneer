@@ -56,6 +56,8 @@ export const createRefreshToken = (user: User) => {
 export const sendRefreshToken = (res: Response, token: string) => {
   res.cookie('jid', token, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'None',
     domain:
       process.env.NODE_ENV === 'production'
         ? '.questioneer.jeffa.dev'

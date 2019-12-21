@@ -82,7 +82,7 @@ const NewQuestion = () => {
             </Header>
             <Form onSubmit={formik.handleSubmit}>
               <Form.Group grouped>
-                <Form.Field error={formik.touched.body && formik.errors.body}>
+                <Form.Field error={formik.touched.body && !!formik.errors.body}>
                   <Editor
                     state={formik.values.body}
                     onChange={body => formik.setFieldValue('body', body)}

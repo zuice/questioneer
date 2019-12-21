@@ -8,7 +8,7 @@ export const authChecker: AuthChecker<MyContext> = async (
   { context },
   roles,
 ) => {
-  const authorization = context.req.get('Authorization') as string;
+  const authorization = context.req.headers['authorization'] as string;
 
   if (!authorization) {
     return false;
@@ -16,13 +16,15 @@ export const authChecker: AuthChecker<MyContext> = async (
 
   try {
     const token = authorization.split(' ')[1];
-    const payload = verify(token, process.env.ACCESS_TOKEN_SECRET!) as {
-      id: string;
-    };
-    const id = payload.id;
-    const user = await User.findOne(id);
+    const payload = verify(token, process.env.ACCESS_TOKEN_SECRET!);
+    const user = await User.findOne((payload as any).userId as string);
 
-    if (user && roles.indexOf(user.role) > -1) {
+    context.payload = payload as any;
+
+    if (
+      (user && roles.length <= 0) ||
+      (user && roles.indexOf(user.role) > -1)
+    ) {
       context.payload = { userId: user!.id };
     } else {
       return false;

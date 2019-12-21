@@ -1,21 +1,19 @@
-import Error from 'next/error';
+import { FunctionComponent } from 'react';
 import Link from 'next/link';
-import { useQuery } from '@apollo/react-hooks';
 
-import { MeOutput } from '../../types/user/MeOutput';
-import { GET_ME } from '../../graphql/queries/user-queries';
+import { User } from '../../types/user/User';
 import { Layout } from '../../components/Layout';
 import { withApollo } from '../../lib/withApollo';
+import { withMe } from '../../lib/withMe';
+import { withAdmin } from '../../lib/withAdmin';
 
-const Admin = () => {
-  const { data, loading, error } = useQuery<MeOutput>(GET_ME);
+interface Props {
+  me: User;
+}
 
-  if (loading || error) {
-    return <Error statusCode={404} />;
-  }
-
+const Admin: FunctionComponent<Props> = ({ me }) => {
   return (
-    <Layout me={data && data.me} action="Admin">
+    <Layout me={me} action="Admin">
       Welcome to the Admin page. Create question{' '}
       <Link href="/_admin/questions/new">
         <a>here.</a>
@@ -24,4 +22,4 @@ const Admin = () => {
   );
 };
 
-export default withApollo(Admin);
+export default withApollo(withMe(withAdmin(Admin)));

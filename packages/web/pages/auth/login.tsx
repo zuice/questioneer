@@ -71,7 +71,7 @@ const Login = () => {
     <AuthLayout action="Login" description="Enter your account details...">
       <Form onSubmit={formik.handleSubmit}>
         <Form.Group grouped>
-          <Form.Field error={formik.touched.email && formik.errors.email}>
+          <Form.Field error={formik.touched.email && !!formik.errors.email}>
             <label htmlFor="email">Email</label>
             <Input
               fluid
@@ -86,7 +86,9 @@ const Login = () => {
             />
             <InputError show={formik.touched.email && formik.errors.email} />
           </Form.Field>
-          <Form.Field error={formik.touched.password && formik.errors.password}>
+          <Form.Field
+            error={formik.touched.password && !!formik.errors.password}
+          >
             <label htmlFor="password">Password</label>
             <Input
               fluid

@@ -16,6 +16,7 @@ export const AUTHENTICATE_USER = gql`
         email
         firstName
         lastName
+        role
       }
       accessToken
     }

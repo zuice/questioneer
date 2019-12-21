@@ -8,7 +8,6 @@ import { setContext } from 'apollo-link-context';
 import fetch from 'isomorphic-unfetch';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import jwtDecode from 'jwt-decode';
-import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import nextCookie from 'next-cookies';
 
@@ -67,7 +66,7 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
-                  cookie: `jid=${jid}`,
+                  cookie: `jid=${jid};HttpOnly`,
                 },
               },
             );
@@ -107,9 +106,7 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
                 apolloClient={apolloClient}
               />,
             );
-          } catch (error) {
-            console.error('Error while running `getDataFromTree`', error);
-          }
+          } catch (_) {}
         }
 
         Head.rewind();
@@ -186,10 +183,6 @@ function createApolloClient(initialState = {}, serverAccessToken?: string) {
     handleFetch: accessToken => {
       setAccessToken(accessToken);
     },
-    handleError: err => {
-      console.warn('Your refresh token is invalid. Try to relogin');
-      console.error(err);
-    },
   });
 
   const authLink = setContext((_request, { headers }) => {
@@ -197,19 +190,14 @@ function createApolloClient(initialState = {}, serverAccessToken?: string) {
     return {
       headers: {
         ...headers,
-        Authorization: token ? `Bearer ${token}` : '',
+        authorization: token ? `Bearer ${token}` : '',
       },
     };
   });
 
-  const errorLink = onError(({ graphQLErrors, networkError }) => {
-    console.log(graphQLErrors);
-    console.log(networkError);
-  });
-
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: ApolloLink.from([refreshLink, authLink, errorLink, httpLink]),
+    link: ApolloLink.from([refreshLink, authLink, httpLink]),
     cache: new InMemoryCache().restore(initialState),
   });
 }

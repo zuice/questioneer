@@ -85,7 +85,7 @@ export const QuestionList: FunctionComponent<Props> = ({ questions }) => {
           )
           .filter(question => (!topic ? true : question.topic.id === topic))
           .map(question => (
-            <QuestionListItem question={question} />
+            <QuestionListItem key={question.id} question={question} />
           ))}
       </List>
     </>

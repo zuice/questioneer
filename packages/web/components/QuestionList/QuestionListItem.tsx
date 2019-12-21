@@ -10,14 +10,16 @@ interface Props {
 }
 
 export const QuestionListItem: FunctionComponent<Props> = ({ question }) => (
-  <List.Item key={question.id}>
+  <List.Item>
     <List.Icon name="question circle" size="big" verticalAlign="middle" />
     <Link href="/questions/[slug]" as={`/questions/${question.slug}`}>
       <List.Content>
-        <List.Header as="a">{question.preview}</List.Header>
-        <List.Description as="a">
-          Updated {formatDate(question.updatedAt)}
-        </List.Description>
+        <>
+          <List.Header as="a">{question.preview}</List.Header>
+          <List.Description as="a">
+            Updated {formatDate(question.updatedAt)}
+          </List.Description>
+        </>
       </List.Content>
     </Link>
   </List.Item>

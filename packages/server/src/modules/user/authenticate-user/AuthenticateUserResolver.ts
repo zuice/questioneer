@@ -1,14 +1,14 @@
 import { Resolver, Mutation, Ctx, Arg } from 'type-graphql';
 import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
 
-import { AuthenticateUserOutput } from './authenticate-user/AuthenticateUserOutput';
-import { AuthenticateUserInput } from './authenticate-user/AuthenticateUserInput';
-import { User } from '../../entities/User';
+import { AuthenticateUserOutput } from './AuthenticateUserOutput';
+import { AuthenticateUserInput } from './AuthenticateUserInput';
+import { User } from '../../../entities/User';
 import {
   sendRefreshToken,
   createRefreshToken,
   createAccessToken,
-} from '../../lib/auth';
+} from '../../../lib/auth';
 
 @Resolver()
 export class AuthenticateUserResolver {

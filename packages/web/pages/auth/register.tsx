@@ -60,7 +60,7 @@ const Register = () => {
     <AuthLayout action="Register" description="Enter your account details...">
       <Form onSubmit={formik.handleSubmit}>
         <Form.Group grouped>
-          <Form.Field error={formik.touched.email && formik.errors.email}>
+          <Form.Field error={formik.touched.email && !!formik.errors.email}>
             <label htmlFor="email">Email</label>
             <Input
               fluid
@@ -76,7 +76,7 @@ const Register = () => {
             <InputError show={formik.touched.email && formik.errors.email} />
           </Form.Field>
           <Form.Field
-            error={formik.touched.firstName && formik.errors.firstName}
+            error={formik.touched.firstName && !!formik.errors.firstName}
           >
             <label htmlFor="firstName">First Name</label>
             <Input
@@ -94,7 +94,9 @@ const Register = () => {
               show={formik.touched.firstName && formik.errors.firstName}
             />
           </Form.Field>
-          <Form.Field error={formik.touched.lastName && formik.errors.lastName}>
+          <Form.Field
+            error={formik.touched.lastName && !!formik.errors.lastName}
+          >
             <label htmlFor="lastName">Last Name</label>
             <Input
               fluid
@@ -111,7 +113,9 @@ const Register = () => {
               show={formik.touched.lastName && formik.errors.lastName}
             />
           </Form.Field>
-          <Form.Field error={formik.touched.password && formik.errors.password}>
+          <Form.Field
+            error={formik.touched.password && !!formik.errors.password}
+          >
             <label htmlFor="password">Password</label>
             <Input
               fluid
@@ -130,7 +134,7 @@ const Register = () => {
           </Form.Field>
           <Form.Field
             error={
-              formik.touched.passwordConfirm && formik.errors.passwordConfirm
+              formik.touched.passwordConfirm && !!formik.errors.passwordConfirm
             }
           >
             <label htmlFor="passwordConfirm">Password Confirm</label>

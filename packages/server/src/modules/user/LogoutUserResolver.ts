@@ -5,7 +5,7 @@ import { sendRefreshToken } from '../../lib/auth';
 
 @Resolver()
 export class LogoutUserResolver {
-  @Authorized('NORMAL', 'ADMIN')
+  @Authorized()
   @Mutation(() => Boolean)
   async logoutUser(@Ctx() ctx: MyContext) {
     sendRefreshToken(ctx.res, '');

@@ -16,7 +16,7 @@ export class QuestionResolver {
 
   @Query(() => Question)
   async question(@Arg('input') input: QueryQuestionInput): Promise<Question> {
-    const question = await Question.findOne({ where: { input } });
+    const question = await Question.findOne({ where: { ...input } });
 
     return question!;
   }

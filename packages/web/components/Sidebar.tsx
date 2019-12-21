@@ -1,5 +1,4 @@
-import { Header, Button, Icon } from 'semantic-ui-react';
-import Link from 'next/link';
+import { Header } from 'semantic-ui-react';
 
 export const Sidebar = () => (
   <>
@@ -8,11 +7,6 @@ export const Sidebar = () => (
       <Header.Subheader style={{ marginBottom: 10 }}>
         Soon this will have content.
       </Header.Subheader>
-      <Link href="/questions/new">
-        <Button as="a">
-          <Icon name="plus" /> Question
-        </Button>
-      </Link>
     </Header>
   </>
 );

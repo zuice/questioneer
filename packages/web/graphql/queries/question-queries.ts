@@ -45,7 +45,7 @@ export const GET_QUESTIONS_ME = gql`
   }
 `;
 
-export const GET_QUESTION_ME = gql`
+export const GET_QUESTION = gql`
   query GetQuestion($input: QueryQuestionInput!) {
     question(input: $input) {
       id
@@ -60,13 +60,6 @@ export const GET_QUESTION_ME = gql`
       topic {
         id
       }
-    }
-    me {
-      id
-      email
-      firstName
-      lastName
-      role
     }
   }
 `;
