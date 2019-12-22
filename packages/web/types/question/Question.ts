@@ -9,8 +9,8 @@ export interface Question {
   preview?: string;
   difficultyId?: string;
   topicId?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: number;
+  updatedAt?: number;
   difficulty?: QuestionDifficulty;
   topic?: QuestionTopic;
 }

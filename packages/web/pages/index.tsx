@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Dashboard: FunctionComponent<Props> = ({ me }) => (
-  <Layout loading={false} me={me} action="Dashboard">
+  <Layout me={me} action="Dashboard">
     {me ? me.email : 'Not logged in.'}
   </Layout>
 );

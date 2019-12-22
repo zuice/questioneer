@@ -10,6 +10,7 @@ import { typeorm } from './lib/typeorm';
 import { authChecker } from './middleware/authChecker';
 import { refreshTokenRoute } from './lib/auth';
 import { UserResolver } from './modules/user/UserResolver';
+import { UpdateUserResolver } from './modules/user/update-user/UpdateUserResolver';
 import { CreateUserResolver } from './modules/user/create-user/CreateUserResolver';
 import { AuthenticateUserResolver } from './modules/user/authenticate-user/AuthenticateUserResolver';
 import { MeResolver } from './modules/user/MeResolver';
@@ -38,6 +39,7 @@ import { QuestionTopicResolver } from './modules/question-topic/QuestionTopicRes
       authChecker,
       resolvers: [
         UserResolver,
+        UpdateUserResolver,
         CreateUserResolver,
         AuthenticateUserResolver,
         MeResolver,

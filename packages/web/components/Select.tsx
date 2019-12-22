@@ -10,6 +10,7 @@ interface Props {
   error?: boolean;
   options: { key: string; text: string; value: string }[];
   loading?: boolean;
+  disabled?: boolean;
   onBlur: (event: KeyboardEvent<HTMLElement>, data: DropdownProps) => void;
   onChange: (field: string, value: any, shouldValidate?: boolean) => any;
 }
@@ -23,6 +24,7 @@ export const Select: FunctionComponent<Props> = ({
   error,
   options,
   loading,
+  disabled,
   onBlur,
   onChange,
 }) => (
@@ -35,6 +37,7 @@ export const Select: FunctionComponent<Props> = ({
     placeholder={placeholder}
     options={options}
     loading={loading}
+    disabled={disabled}
     onChange={(_, input) => onChange(input.name, input.value)}
     onBlur={onBlur}
   />

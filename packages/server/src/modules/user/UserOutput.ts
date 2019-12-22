@@ -17,5 +17,11 @@ export class UserOutput implements Partial<User> {
   lastName: string;
 
   @Field()
+  createdAt: Date;
+
+  @Field()
+  updatedAt: Date;
+
+  @Field()
   role: 'ADMIN' | 'NORMAL';
 }

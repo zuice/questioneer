@@ -1,18 +1,24 @@
 import { FunctionComponent, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { Input, List, Header, Select, Button, Icon } from 'semantic-ui-react';
-import Link from 'next/link';
+import { List } from 'semantic-ui-react';
 
 import { Question } from '../../types/question/Question';
 import { DifficultyTopicOutput } from '../../types/shared/DifficultyTopicOutput';
 import { GET_DIFFICULTIES_TOPICS } from '../../graphql/shared-queries/difficulty-topic-queries';
+import { QuestionListSearch } from './QuestionListSearch';
 import { QuestionListItem } from './QuestionListItem';
 
 interface Props {
   questions: Question[];
+  searchable?: boolean;
+  actions?: boolean;
 }
 
-export const QuestionList: FunctionComponent<Props> = ({ questions }) => {
+export const QuestionList: FunctionComponent<Props> = ({
+  questions,
+  searchable,
+  actions,
+}) => {
   const [search, setSearch] = useState('');
   const [difficulty, setDifficulty] = useState(null);
   const [topic, setTopic] = useState(null);
@@ -21,72 +27,44 @@ export const QuestionList: FunctionComponent<Props> = ({ questions }) => {
       questionDifficulties: [],
       questionTopics: [],
     },
-  } = useQuery<DifficultyTopicOutput>(GET_DIFFICULTIES_TOPICS);
+  } = useQuery<DifficultyTopicOutput>(GET_DIFFICULTIES_TOPICS, {
+    skip: !searchable,
+  });
+  const filteredQuestions = questions
+    .filter(question => {
+      const preview = question.preview.toLowerCase();
+      const matches = preview.indexOf(search.toLowerCase()) > -1;
+
+      return matches;
+    })
+    .filter(question =>
+      !difficulty ? true : question.difficulty.id === difficulty,
+    )
+    .filter(question => (!topic ? true : question.topic.id === topic))
+    .sort((a, b) => b.updatedAt - a.updatedAt);
 
   return (
     <>
-      <label htmlFor="search" style={{ marginBottom: 5 }}>
-        <Header>
-          <Header.Content>Search</Header.Content>
-          <Header.Subheader>
-            Start typing to filter the list...
-          </Header.Subheader>
-        </Header>
-      </label>
-      <Select
-        id="difficulty"
-        value={difficulty}
-        placeholder="Choose difficulty..."
-        options={data.questionDifficulties.map(difficulty => ({
-          key: difficulty.id,
-          value: difficulty.id,
-          text: difficulty.title,
-        }))}
-        onChange={(_, { value }) => setDifficulty(value as string)}
-      />{' '}
-      <Select
-        id="topic"
-        value={topic}
-        placeholder="Choose topic..."
-        options={data.questionTopics.map(topic => ({
-          key: topic.id,
-          value: topic.id,
-          text: topic.title,
-        }))}
-        onChange={(_, { value }) => setTopic(value as string)}
-      />{' '}
-      <Button
-        style={{ marginBottom: 5 }}
-        onClick={() => {
-          setDifficulty(null);
-          setTopic(null);
-        }}
-      >
-        <Icon name="cancel" /> Clear
-      </Button>
-      <Input
-        fluid
-        id="search"
-        placeholder="Enter a query..."
-        value={search}
-        autoComplete="off"
-        onChange={(_, data) => setSearch(data.value)}
-      />
+      {searchable ? (
+        <QuestionListSearch
+          search={search}
+          setSearch={setSearch}
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+          topic={topic}
+          setTopic={setTopic}
+          questionDifficulties={data ? data.questionDifficulties : []}
+          questionTopics={data ? data.questionTopics : []}
+        />
+      ) : null}
       <List divided relaxed>
-        {questions
-          .filter(question => {
-            const preview = question.preview.toLowerCase();
-            const matches = preview.indexOf(search.toLowerCase()) > -1;
-
-            return matches;
-          })
-          .filter(question =>
-            !difficulty ? true : question.difficulty.id === difficulty,
-          )
-          .filter(question => (!topic ? true : question.topic.id === topic))
-          .map(question => (
-            <QuestionListItem key={question.id} question={question} />
-          ))}
+        {filteredQuestions.map(question => (
+          <QuestionListItem
+            key={question.id}
+            question={question}
+            actions={actions}
+          />
+        ))}
       </List>
     </>
   );

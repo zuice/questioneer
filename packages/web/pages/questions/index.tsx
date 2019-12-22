@@ -20,7 +20,7 @@ const Questions: FunctionComponent<Props> = ({ me }) => {
 
   return (
     <Layout loading={loading} me={me} action="Questions">
-      <QuestionList questions={data ? data.questions : []} />
+      <QuestionList searchable questions={data ? data.questions : []} />
     </Layout>
   );
 };
