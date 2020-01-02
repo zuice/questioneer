@@ -3,36 +3,28 @@ import {
   BaseEntity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
-  BeforeInsert,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
+  BeforeInsert,
+  ManyToOne,
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
-import sanitizeHtml from 'sanitize-html';
 import slugify from '@sindresorhus/slugify';
+import sanitizeHtml from 'sanitize-html';
 
-import { QuestionDifficulty } from './QuestionDifficulty';
-import { QuestionTopic } from './QuestionTopic';
-import { Answer } from './Answer';
+import { Question } from './Question';
 import { Lazy } from '../lib/Lazy';
-import { User } from './User';
 
 @Entity()
 @ObjectType()
-export class Question extends BaseEntity {
+export class Answer extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   readonly id: string;
 
-  @Column()
+  @Column({ type: 'text' })
   @Field()
   body: string;
-
-  @Column({ nullable: true })
-  @Field({ nullable: true })
-  tag?: string;
 
   @Column()
   @Field()
@@ -44,40 +36,11 @@ export class Question extends BaseEntity {
 
   @Column('uuid')
   @Field(() => ID)
-  difficultyId: string;
-
-  @Column('uuid')
-  @Field(() => ID)
-  topicId: string;
-
-  @Column('uuid')
-  @Field(() => ID)
   userId: string;
 
-  @ManyToOne(
-    () => QuestionDifficulty,
-    questionDifficulty => questionDifficulty.questions,
-  )
-  @Field(() => QuestionDifficulty)
-  difficulty?: Lazy<QuestionDifficulty>;
-
-  @ManyToOne(
-    () => QuestionTopic,
-    questionTopic => questionTopic.questions,
-  )
-  @Field(() => QuestionTopic)
-  topic?: Lazy<QuestionDifficulty>;
-
-  @OneToMany(
-    () => Answer,
-    answer => answer.questionId,
-  )
-  @Field(() => [Answer])
-  answers?: Lazy<Answer[]>;
-
-  @ManyToOne(() => User)
-  @Field(() => User)
-  user?: Lazy<User>;
+  @Column('uuid')
+  @Field(() => ID)
+  questionId: string;
 
   @CreateDateColumn()
   @Field()
@@ -86,6 +49,10 @@ export class Question extends BaseEntity {
   @UpdateDateColumn()
   @Field()
   updatedAt: Date;
+
+  @ManyToOne(() => Question)
+  @Field(() => Question)
+  question: Lazy<Question>;
 
   @BeforeInsert()
   setBody() {

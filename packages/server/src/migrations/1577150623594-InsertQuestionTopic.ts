@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class InsertQuestionTopic1576723635284 implements MigrationInterface {
+export class InsertQuestionTopic1577150623594 implements MigrationInterface {
   topics = ['Accounting', 'Financing', 'Economics'];
   public async up(queryRunner: QueryRunner): Promise<any> {
     this.topics.forEach(topic => {

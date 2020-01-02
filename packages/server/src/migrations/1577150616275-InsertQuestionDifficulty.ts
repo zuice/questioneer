@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class InsertQuestionDifficulty1576723626752
+export class InsertQuestionDifficulty1577150616275
   implements MigrationInterface {
   difficulties = ['Beginner', 'Intermediate', 'Advanced'];
   public async up(queryRunner: QueryRunner): Promise<any> {

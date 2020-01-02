@@ -44,16 +44,16 @@ export const QuestionListItem: FunctionComponent<Props> = ({
     <List.Item>
       {actionsComponent}
       <List.Icon name="question circle" size="big" verticalAlign="middle" />
-      <List.Content>
-        <Link href="/questions/[slug]" as={`/questions/${question.slug}`}>
+      <Link href="/questions/[slug]" as={`/questions/${question.slug}`}>
+        <List.Content>
           <>
             <List.Header as="a">{question.preview}</List.Header>
             <List.Description as="a">
               Updated {formatDate(question.updatedAt)}
             </List.Description>
           </>
-        </Link>
-      </List.Content>
+        </List.Content>
+      </Link>
     </List.Item>
   );
 };

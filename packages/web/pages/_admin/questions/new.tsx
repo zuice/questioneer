@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
 import Error from 'next/error';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Form, Input, Button, Segment } from 'semantic-ui-react';
@@ -15,13 +14,10 @@ import { QuestionInput } from '../../../types/question/QuestionInput';
 import { CREATE_QUESTION } from '../../../graphql/mutations/question-mutation';
 import { CreateQuestionSchema } from '../../../schemas/CreateQuestionSchema';
 import { AdminLayout } from '../../../components/AdminLayout';
+import { Editor } from '../../../components/Editor';
 import { InputError } from '../../../components/InputError';
 import { Select } from '../../../components/Select';
 import { withApollo } from '../../../lib/withApollo';
-
-const Editor = dynamic(() => import('../../../components/Editor'), {
-  ssr: false,
-});
 
 const NewQuestion = () => {
   const [loading, setLoading] = useState(false);

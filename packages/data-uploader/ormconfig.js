@@ -1,0 +1,38 @@
+module.exports = [
+  {
+    name: 'development',
+    type: 'postgres',
+    database: process.env.DATABASE_NAME,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    synchronize: false,
+    logging: true,
+    entities: ['src/entities/**/*.ts'],
+    migrations: ['src/migrations/**/*.ts'],
+    subscribers: ['src/subscribers/**/*.ts'],
+    cli: {
+      entitiesDir: 'src/entities',
+      migrationsDir: 'src/migrations',
+      subscribersDir: 'src/subscribers',
+    },
+  },
+  {
+    name: 'production',
+    type: 'postgres',
+    host: process.env.DATABASE_HOST,
+    database: process.env.DATABASE_NAME,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    url: process.env.DATABASE_URL,
+    synchronize: false,
+    logging: false,
+    entities: ['dist/entities/**/*.js'],
+    migrations: ['dist/migrations/**/*.js'],
+    subscribers: ['dist/subscribers/**/*.js'],
+    cli: {
+      entitiesDir: 'dist/entities',
+      migrationsDir: 'dist/migrations',
+      subscribersDir: 'dist/subscribers',
+    },
+  },
+];

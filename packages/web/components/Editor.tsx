@@ -1,13 +1,24 @@
 import { FunctionComponent } from 'react';
+import dynamic from 'next/dynamic';
 import { EditorState } from 'draft-js';
-import { Editor as LibEditor } from 'react-draft-wysiwyg';
+
+const LibEditor = dynamic(
+  async () => {
+    const { Editor } = await import('react-draft-wysiwyg');
+
+    return Editor;
+  },
+  {
+    ssr: false,
+  },
+);
 
 interface Props {
   state: EditorState;
   onChange: (body: EditorState) => void;
 }
 
-const Editor: FunctionComponent<Props> = ({ state, onChange }) => (
+export const Editor: FunctionComponent<Props> = ({ state, onChange }) => (
   <LibEditor
     toolbar={{
       options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign'],
@@ -23,5 +34,3 @@ const Editor: FunctionComponent<Props> = ({ state, onChange }) => (
     onEditorStateChange={onChange}
   />
 );
-
-export default Editor;

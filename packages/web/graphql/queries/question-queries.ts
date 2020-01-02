@@ -9,6 +9,10 @@ export const GET_QUESTIONS = gql`
       preview
       createdAt
       updatedAt
+      answers {
+        id
+        body
+      }
       difficulty {
         id
       }
@@ -28,6 +32,10 @@ export const GET_QUESTIONS_ME = gql`
       preview
       createdAt
       updatedAt
+      answers {
+        id
+        body
+      }
       difficulty {
         id
       }
@@ -54,6 +62,10 @@ export const GET_QUESTION = gql`
       preview
       createdAt
       updatedAt
+      answers {
+        id
+        body
+      }
       difficulty {
         id
       }

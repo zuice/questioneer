@@ -76,6 +76,9 @@ export const AdminLayout: FunctionComponent<Props> = ({
                       <Link href="/_admin/questions/new">
                         <Dropdown.Item as="a">New</Dropdown.Item>
                       </Link>
+                      <Link href="/_admin/questions/bulk-new">
+                        <Dropdown.Item as="a">Bulk New</Dropdown.Item>
+                      </Link>
                     </Dropdown.Menu>
                   </Dropdown>
                   <Dropdown item text="Users">
