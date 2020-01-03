@@ -1,5 +1,6 @@
 import { QuestionDifficulty } from '../question-difficulty/QuestionDifficulty';
 import { QuestionTopic } from '../question-topic/QuestionTopic';
+import { Answer } from '../answer/Answer';
 
 export interface Question {
   readonly id: string;
@@ -13,4 +14,5 @@ export interface Question {
   updatedAt?: number;
   difficulty?: QuestionDifficulty;
   topic?: QuestionTopic;
+  answers: Answer[];
 }

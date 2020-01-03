@@ -4,6 +4,7 @@ import { Question } from '../../entities/Question';
 import { QueryQuestionInput } from './QueryQuestionInput';
 import { QuestionDifficulty } from '../../entities/QuestionDifficulty';
 import { QuestionTopic } from '../../entities/QuestionTopic';
+import { Answer } from '../../entities/Answer';
 
 @Resolver(() => Question)
 export class QuestionResolver {
@@ -37,5 +38,12 @@ export class QuestionResolver {
     });
 
     return questionTopic || new QuestionTopic();
+  }
+
+  @FieldResolver(() => [Answer])
+  async answers(@Root() root: Question): Promise<Answer[]> {
+    const answers = await Answer.find({ where: { questionId: root.id } });
+
+    return answers || [];
   }
 }

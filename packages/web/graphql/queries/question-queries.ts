@@ -12,6 +12,8 @@ export const GET_QUESTIONS = gql`
       answers {
         id
         body
+        updatedAt
+        createdAt
       }
       difficulty {
         id
@@ -35,6 +37,8 @@ export const GET_QUESTIONS_ME = gql`
       answers {
         id
         body
+        updatedAt
+        createdAt
       }
       difficulty {
         id
@@ -65,6 +69,8 @@ export const GET_QUESTION = gql`
       answers {
         id
         body
+        updatedAt
+        createdAt
       }
       difficulty {
         id
