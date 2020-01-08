@@ -49,17 +49,21 @@ const NewQuestion = () => {
         setLoading(false);
 
         if (e && e.graphQLErrors.length > 0) {
-          e.graphQLErrors[0].extensions.exception.validationErrors.forEach(
-            ({
-              property,
-              constraints,
-            }: {
-              property: string;
-              constraints: { [key: string]: string };
-            }) => {
-              formik.setFieldError(property, Object.values(constraints)[0]);
-            },
-          );
+          const validationErrors =
+            e.graphQLErrors[0].extensions.exception.validationErrors;
+
+          validationErrors &&
+            validationErrors.forEach(
+              ({
+                property,
+                constraints,
+              }: {
+                property: string;
+                constraints: { [key: string]: string };
+              }) => {
+                formik.setFieldError(property, Object.values(constraints)[0]);
+              },
+            );
         }
       }
     },

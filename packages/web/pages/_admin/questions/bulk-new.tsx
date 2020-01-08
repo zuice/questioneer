@@ -57,9 +57,8 @@ const BulkNewQuestion: FunctionComponent<Props> = ({ me }) => {
         const body = {
           input: { file: JSON.parse(event.target.result as string) },
         };
-        const response = await post(body);
 
-        console.log(response);
+        await post(body);
       };
     },
   });

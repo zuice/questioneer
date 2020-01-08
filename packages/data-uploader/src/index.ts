@@ -83,24 +83,31 @@ const app = express();
     const valid = await CreateBulkSchema.isValid(input);
 
     if (valid) {
-      const unsaved = input.questions.map(question =>
-        Question.create({ ...question, userId: payload.userId }),
-      );
-      const saved = unsaved.map(async question => {
-        const initialized = await question.save();
-        const unsavedAnswers = await question.answers;
-        const savedAnswers = unsavedAnswers!.map(async unsavedAnswer => {
-          await Answer.create({
-            ...unsavedAnswer,
-            userId: payload.userId,
-            questionId: initialized.id,
-          }).save();
+      try {
+        const unsaved = input.questions.map(question =>
+          Question.create({ ...question, userId: payload.userId }),
+        );
+        const saved = unsaved.map(async question => {
+          const initialized = await question.save();
+          const unsavedAnswers = await question.answers;
+          const savedAnswers = unsavedAnswers!.map(async unsavedAnswer => {
+            await Answer.create({
+              ...unsavedAnswer,
+              userId: payload.userId,
+              questionId: initialized.id,
+            }).save();
+          });
+
+          return savedAnswers;
         });
 
-        return savedAnswers;
-      });
+        Promise.all(saved);
+      } catch (e) {
+        res.status(422);
+        res.json({ message: e.message });
 
-      Promise.all(saved);
+        return;
+      }
 
       res.json({ message: 'Your questions were submitted.' });
     } else {
